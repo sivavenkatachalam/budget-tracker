@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Budget Tracker</title>
+</head>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+}
+
+.container {
+    width: 50%;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    background-color: #007bff;
+    color: white;
+    padding: 10px;
+    text-align: center;
+}
+
+.form-group {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+label {
+    margin-right: 10px;
+}
+
+input, select {
+    padding: 5px;
+    margin-right: 10px;
+    flex: 1;
+}
+
+button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    display: block;
+    margin: 0 auto;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+thead {
+    background-color: #007bff;
+    color: white;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+td button {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+td button:hover {
+    background-color: darkred;
+}
+</style>
+<body>
+    <div class="container">
+        <h2>Add a new transaction:</h2>
+        <div class="form-group">
+            <label for="type">Type:</label>
+            <select id="type">
+                <option value="">Choose one...</option>
+                <option value="income">Income</option>
+                <option value="expense">Expense</option>
+            </select>
+            <label for="name">Name:</label>
+            <input type="text" id="name">
+            <label for="amount">Amount:</label>
+            <input type="number" id="amount">
+        </div>
+        <button id="add-btn">Add to transactions</button>
+        <table id="transactions-table">
+            <thead>
+                <tr>
+                    <th>Type</th>
+                    <th>Name</th>
+                    <th>Amount</th>
+                    <th>Options</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+    <script>
+    document.getElementById('add-btn').addEventListener('click', function() {
+    const type = document.getElementById('type').value;
+    const name = document.getElementById('name').value;
+    const amount = document.getElementById('amount').value;
+
+    if (type && name && amount) {
+        const table = document.getElementById('transactions-table').getElementsByTagName('tbody')[0];
+        const newRow = table.insertRow();
+
+        const typeCell = newRow.insertCell(0);
+        typeCell.textContent = type.charAt(0).toUpperCase() + type.slice(1);
+
+        const nameCell = newRow.insertCell(1);
+        nameCell.textContent = name;
+
+        const amountCell = newRow.insertCell(2);
+        amountCell.textContent = `$${amount}`;
+
+        const optionsCell = newRow.insertCell(3);
+        const deleteBtn = document.createElement('button');
+        deleteBtn.textContent = 'Delete';
+        deleteBtn.addEventListener('click', function() {
+            table.deleteRow(newRow.rowIndex - 1);
+        });
+        optionsCell.appendChild(deleteBtn);
+
+        document.getElementById('type').value = '';
+        document.getElementById('name').value = '';
+        document.getElementById('amount').value = '';
+    } else {
+        alert('Please fill out all fields');
+    }
+});
+</script>
+</body>
+</html>
